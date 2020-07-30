@@ -1,6 +1,7 @@
 package com.thoughtworks.todo_list.ui.login;
 
 import android.annotation.SuppressLint;
+import android.util.Log;
 import android.util.Patterns;
 
 import androidx.lifecycle.LifecycleOwner;
@@ -9,16 +10,28 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.thoughtworks.todo_list.R;
+import com.thoughtworks.todo_list.repository.user.entity.User;
 import com.thoughtworks.todo_list.repository.utils.Encryptor;
+import com.thoughtworks.todo_list.repository.utils.HttpUtil;
 
+import java.util.Objects;
+
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private UserRepository userRepository;
+    public static final String USERNAME = "android";
 
     void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -34,7 +47,8 @@ public class LoginViewModel extends ViewModel {
 
     @SuppressLint("CheckResult")
     public void login(String username, String password) {
-        userRepository.findByName(username).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        insertInitUser();
+        Disposable loginDisposable = userRepository.findByName(username).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> loginResult.setValue(new LoginResult(R.string.login_failed_username)))
                 .subscribe(u -> {
                     if (u == null) {
@@ -47,6 +61,7 @@ public class LoginViewModel extends ViewModel {
                     }
                     loginResult.postValue(new LoginResult(R.string.login_failed_password));
                 });
+        compositeDisposable.add(loginDisposable);
     }
 
     public void loginDataChanged(String username, String password) {
@@ -72,5 +87,58 @@ public class LoginViewModel extends ViewModel {
 
     private boolean isPasswordValid(String password) {
         return password != null && password.trim().length() > 2;
+    }
+
+    public void insertInitUser() {
+        Disposable getUserDisposable = userRepository.findByName(USERNAME)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(this::getUserFromNetwork)
+                .subscribe(new Consumer<User>() {
+                    @Override
+                    public void accept(User user) throws Exception {
+
+                    }
+                });
+        compositeDisposable.add(getUserDisposable);
+    }
+
+    public void getUserFromNetwork() {
+        Disposable networkDisposable = Observable.create(new ObservableOnSubscribe<User>() {
+            @Override
+            public void subscribe(ObservableEmitter<User> emitter) throws Exception {
+                try {
+                    User initUser = HttpUtil.getUserFromNetwork();
+                    if (!emitter.isDisposed() && Objects.nonNull(initUser)) {
+                        emitter.onNext(initUser);
+                        emitter.onComplete();
+                    }
+                } catch (Exception e) {
+                    emitter.onError(e);
+                }
+            }
+        }).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::insertInitUserToDB, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.d(Thread.currentThread().getStackTrace()[3].getMethodName(), "error: " + throwable.getStackTrace().toString());
+                    }
+                });
+        compositeDisposable.add(networkDisposable);
+    }
+
+    private void insertInitUserToDB(User user) {
+        Disposable insertDisposable = userRepository.save(user)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe();
+        compositeDisposable.add(insertDisposable);
+    }
+
+    @Override
+    protected void onCleared() {
+        compositeDisposable.clear();
+        super.onCleared();
     }
 }

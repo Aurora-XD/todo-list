@@ -1,5 +1,7 @@
 package com.thoughtworks.todo_list;
 
+import android.os.SystemClock;
+
 import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
@@ -25,6 +27,7 @@ import static androidx.test.espresso.matcher.RootMatchers.withDecorView;
 import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.thoughtworks.todo_list.ui.login.LoginViewModel.USERNAME;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
@@ -44,13 +47,15 @@ public class LoginActivityTest {
         User user = new User();
         user.setId(1);
         user.setPassword(Encryptor.md5("123456"));
-        user.setName("sjyuan");
-        when(userRepository.findByName("sjyuan")).thenReturn(new MaybeCreate(emitter -> emitter.onSuccess(user)));
+        user.setName(USERNAME);
+        when(userRepository.findByName(USERNAME)).thenReturn(new MaybeCreate(emitter -> emitter.onSuccess(user)));
 
-        onView(withId(R.id.username)).perform(typeText("sjyuan"));
+        onView(withId(R.id.username)).perform(typeText(USERNAME));
         onView(withId(R.id.password)).perform(typeText("123456"));
         onView(withId(R.id.login)).perform(click());
-        onView(withText("Welcome !sjyuan")).inRoot(withDecorView(not(is(mActivityRule.getActivity().getWindow().getDecorView()))))
+
+        SystemClock.sleep(2000);
+        onView(withText("Welcome !"+USERNAME)).inRoot(withDecorView(not(is(mActivityRule.getActivity().getWindow().getDecorView()))))
                 .check(matches(isDisplayed()));
     }
 
@@ -61,12 +66,14 @@ public class LoginActivityTest {
         User user = new User();
         user.setId(1);
         user.setPassword(Encryptor.md5("12345"));
-        user.setName("sjyuan");
-        when(userRepository.findByName("sjyuan")).thenReturn(new MaybeCreate(emitter -> emitter.onSuccess(user)));
+        user.setName(USERNAME);
+        when(userRepository.findByName(USERNAME)).thenReturn(new MaybeCreate(emitter -> emitter.onSuccess(user)));
 
-        onView(withId(R.id.username)).perform(typeText("sjyuan"));
+        onView(withId(R.id.username)).perform(typeText(USERNAME));
         onView(withId(R.id.password)).perform(typeText("123456"));
         onView(withId(R.id.login)).perform(click());
+
+        SystemClock.sleep(2000);
         onView(withText(R.string.login_failed_password)).inRoot(withDecorView(not(is(mActivityRule.getActivity().getWindow().getDecorView()))))
                 .check(matches(isDisplayed()));
     }
@@ -78,16 +85,19 @@ public class LoginActivityTest {
         User user = new User();
         user.setId(1);
         user.setPassword("12345");
-        user.setName("sjyuan");
+        user.setName(USERNAME);
+        when(userRepository.findByName(USERNAME)).thenReturn(new MaybeCreate(emitter -> emitter.onSuccess(user)));
         when(userRepository.findByName("notexist")).thenReturn(new Maybe<User>() {
             @Override
             protected void subscribeActual(MaybeObserver<? super User> observer) {
                 observer.onComplete();
             }
         });
+
         onView(withId(R.id.username)).perform(typeText("notexist"));
         onView(withId(R.id.password)).perform(typeText("12345"));
         onView(withId(R.id.login)).perform(click());
+
         onView(withText(R.string.login_failed_username)).inRoot(withDecorView(not(is(mActivityRule.getActivity().getWindow().getDecorView()))))
                 .check(matches(isDisplayed()));
     }
