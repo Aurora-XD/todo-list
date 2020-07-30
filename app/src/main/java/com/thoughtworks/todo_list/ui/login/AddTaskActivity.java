@@ -1,7 +1,5 @@
 package com.thoughtworks.todo_list.ui.login;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.widget.Button;
@@ -9,6 +7,8 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Switch;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.thoughtworks.todo_list.R;
 
@@ -19,6 +19,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class AddTaskActivity extends AppCompatActivity {
+
+    private String currentUser;
 
     @BindView(R.id.add_task_is_finish)
     CheckBox mIsFinish;
@@ -40,16 +42,17 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
         ButterKnife.bind(this);
+        currentUser = getIntent().getExtras().getString(getString(R.string.prompt_username));
     }
 
     @OnClick(R.id.add_task_date)
-    void setTaskDeadline(){
+    void setTaskDeadline() {
         Calendar now = Calendar.getInstance();
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                mBtnDate.setText(year+"年"+month+"月"+day+"日");
+                mBtnDate.setText(year + "年" + month + "月" + day + "日");
             }
-        },now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).show();
+        }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).show();
     }
 }

@@ -69,4 +69,19 @@
 
     </ScrollView>
 
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/add_task_confirm"
+            android:layout_width="@dimen/button_diameter"
+            android:layout_height="@dimen/button_diameter"
+            android:layout_margin="@dimen/activity_horizontal_margin"
+            android:layout_gravity="bottom|right"
+            android:background="@drawable/check_selected"/>
+
+    </FrameLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

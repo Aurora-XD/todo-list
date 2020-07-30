@@ -55,7 +55,7 @@ public class LoginActivity extends AppCompatActivity {
             if (loginResult.getSuccess() != null) {
                 updateUiWithUser(loginResult.getSuccess());
                 Intent intent = new Intent(this, HomeActivity.class);
-                intent.putExtra("user", usernameEditText.getText().toString());
+                intent.putExtra(getString(R.string.prompt_username), usernameEditText.getText().toString());
                 startActivity(intent);
                 finish();
             }
