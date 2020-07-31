@@ -15,6 +15,7 @@ import com.thoughtworks.todo_list.repository.utils.Encryptor;
 import com.thoughtworks.todo_list.repository.utils.HttpUtil;
 
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -32,6 +33,7 @@ public class LoginViewModel extends ViewModel {
 
     private UserRepository userRepository;
     public static final String USERNAME = "android";
+    public static final String TAG = "LoginViewModel";
 
     void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
@@ -81,12 +83,12 @@ public class LoginViewModel extends ViewModel {
         if (username.contains("@")) {
             return Patterns.EMAIL_ADDRESS.matcher(username).matches();
         } else {
-            return username.trim().length() >= 3 && username.trim().length() <= 12;
+            return Pattern.matches("[a-zA-Z0-9]{3,12}", username);
         }
     }
 
     private boolean isPasswordValid(String password) {
-        return password != null && password.trim().length() >= 6 && password.trim().length() <= 18;
+        return Pattern.matches(".{6,18}",password);
     }
 
     public void insertInitUser() {
@@ -122,7 +124,7 @@ public class LoginViewModel extends ViewModel {
                 .subscribe(this::insertInitUserToDB, new Consumer<Throwable>() {
                     @Override
                     public void accept(Throwable throwable) throws Exception {
-                        Log.d(Thread.currentThread().getStackTrace()[3].getMethodName(), "error: " + throwable.getStackTrace().toString());
+                        Log.d(TAG, "error: " + throwable.getStackTrace().toString());
                     }
                 });
         compositeDisposable.add(networkDisposable);
