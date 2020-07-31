@@ -1,6 +1,7 @@
 package com.thoughtworks.todo_list.ui.login;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -62,6 +63,18 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onChanged(Boolean aBoolean) {
                 Log.d("TAG", "mBtnConfirm: " + aBoolean);
                 mBtnConfirm.setEnabled(aBoolean);
+            }
+        });
+
+        addTaskViewModel.observeCreateTaskResult(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                if(aBoolean){
+                    Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                    intent.putExtra(getString(R.string.prompt_username), currentUser);
+                    startActivity(intent);
+                    finish();
+                }
             }
         });
 

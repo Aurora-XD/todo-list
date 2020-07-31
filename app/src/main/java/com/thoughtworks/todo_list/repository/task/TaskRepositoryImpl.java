@@ -14,6 +14,6 @@ public class TaskRepositoryImpl implements TaskRepository {
 
     @Override
     public Completable saveTask(Task task) {
-        return null;
+        return taskDateSource.saveTask(task);
     }
 }
