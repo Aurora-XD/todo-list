@@ -12,21 +12,17 @@ import butterknife.OnClick;
 
 public class HomeActivity extends AppCompatActivity {
 
-    private String currentUser;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activiey_home);
 
         ButterKnife.bind(this);
-        currentUser = getIntent().getExtras().getString(getString(R.string.prompt_username));
     }
 
     @OnClick(R.id.home_button_add_task)
     void startAddTask(){
         Intent intent = new Intent(this, AddTaskActivity.class);
-        intent.putExtra(getString(R.string.prompt_username),currentUser);
         startActivity(intent);
     }
 }

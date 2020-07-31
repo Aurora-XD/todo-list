@@ -9,10 +9,12 @@ import com.thoughtworks.todo_list.repository.task.TaskRepository;
 import com.thoughtworks.todo_list.repository.task.TaskRepositoryImpl;
 import com.thoughtworks.todo_list.repository.user.UserRepository;
 import com.thoughtworks.todo_list.repository.user.UserRepositoryImpl;
+import com.thoughtworks.todo_list.repository.user.entity.User;
 
 public class MainApplication extends Application {
     private UserRepository userRepository;
     private TaskRepository taskRepository;
+    private User currentUser;
 
     @Override
     public void onCreate() {
@@ -29,5 +31,13 @@ public class MainApplication extends Application {
 
     public UserRepository userRepository() {
         return userRepository;
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
     }
 }

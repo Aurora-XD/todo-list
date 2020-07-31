@@ -30,6 +30,7 @@ import io.reactivex.schedulers.Schedulers;
 public class LoginViewModel extends ViewModel {
     private MutableLiveData<LoginFormState> loginFormState = new MutableLiveData<>();
     private MutableLiveData<LoginResult> loginResult = new MutableLiveData<>();
+    private MutableLiveData<User> currentUser = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private UserRepository userRepository;
@@ -38,6 +39,10 @@ public class LoginViewModel extends ViewModel {
 
     void setUserRepository(UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    void observeCurrentUser(LifecycleOwner lifecycleOwner, Observer<User> observer) {
+        currentUser.observe(lifecycleOwner, observer);
     }
 
     void observeLoginFormState(LifecycleOwner lifecycleOwner, Observer<LoginFormState> observer) {
@@ -55,10 +60,11 @@ public class LoginViewModel extends ViewModel {
                 .doOnComplete(() -> loginResult.setValue(new LoginResult(R.string.login_failed_username)))
                 .subscribe(u -> {
                     if (u.getPassword().equals(Encryptor.md5(password))) {
-                        loginResult.postValue(new LoginResult(new LoggedInUserView(u.getName())));
+                        loginResult.setValue(new LoginResult(new LoggedInUserView(u.getName())));
+                        currentUser.setValue(u);
                         return;
                     }
-                    loginResult.postValue(new LoginResult(R.string.login_failed_password));
+                    loginResult.setValue(new LoginResult(R.string.login_failed_password));
                 });
         compositeDisposable.add(loginDisposable);
     }

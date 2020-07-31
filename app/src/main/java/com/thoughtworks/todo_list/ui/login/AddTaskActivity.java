@@ -29,8 +29,6 @@ import butterknife.OnClick;
 public class AddTaskActivity extends AppCompatActivity {
     private AddTaskViewModel addTaskViewModel;
 
-    private String currentUser;
-
     @BindView(R.id.add_task_is_finish)
     CheckBox mIsFinish;
 
@@ -54,7 +52,6 @@ public class AddTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_task);
         ButterKnife.bind(this);
-        currentUser = getIntent().getExtras().getString(getString(R.string.prompt_username));
 
         addTaskViewModel = obtainViewModel();
 
@@ -71,7 +68,6 @@ public class AddTaskActivity extends AppCompatActivity {
             public void onChanged(Boolean aBoolean) {
                 if(aBoolean){
                     Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
-                    intent.putExtra(getString(R.string.prompt_username), currentUser);
                     startActivity(intent);
                     finish();
                 }
@@ -102,14 +98,14 @@ public class AddTaskActivity extends AppCompatActivity {
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                mBtnDate.setText(year + "年" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "月" + day + "日");
+                mBtnDate.setText(year + "年" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "月" + (day < 10 ? "0" + day : day) + "日");
             }
         }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).show();
     }
 
     @OnClick(R.id.add_task_confirm)
     void createTask() {
-        addTaskViewModel.createTask(currentUser,mIsFinish.isChecked(), mBtnDate.getText().toString(), mIsRemind.isChecked(),
+        addTaskViewModel.createTask(((MainApplication) getApplicationContext()).getCurrentUser().getName(),mIsFinish.isChecked(), mBtnDate.getText().toString(), mIsRemind.isChecked(),
                 mEditHeader.getText().toString(), mEditDescription.getText().toString());
     }
 
