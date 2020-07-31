@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void showLoginFailed(Integer errorString) {
-        Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, errorString, Toast.LENGTH_SHORT).show();
     }
 
     private LoginViewModel obtainViewModel() {

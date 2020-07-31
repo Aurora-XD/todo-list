@@ -53,10 +53,6 @@ public class LoginViewModel extends ViewModel {
         Disposable loginDisposable = userRepository.findByName(username).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> loginResult.setValue(new LoginResult(R.string.login_failed_username)))
                 .subscribe(u -> {
-                    if (u == null) {
-                        loginResult.postValue(new LoginResult(R.string.login_failed_username));
-                        return;
-                    }
                     if (u.getPassword().equals(Encryptor.md5(password))) {
                         loginResult.postValue(new LoginResult(new LoggedInUserView(u.getName())));
                         return;
