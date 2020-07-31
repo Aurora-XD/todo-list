@@ -10,7 +10,7 @@ import com.thoughtworks.todo_list.repository.user.entity.User;
 import com.thoughtworks.todo_list.repository.user.DBUserDataSource;
 import com.thoughtworks.todo_list.repository.utils.DateTrans;
 
-@Database(entities = {User.class, Task.class}, version = 2)
+@Database(entities = {User.class, Task.class}, version = 3)
 @TypeConverters({DateTrans.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract DBUserDataSource userDBDataSource();

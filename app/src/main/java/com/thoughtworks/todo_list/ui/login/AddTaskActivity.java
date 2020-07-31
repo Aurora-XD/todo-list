@@ -17,7 +17,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
-import com.thoughtworks.todo_list.repository.user.UserRepository;
+import com.thoughtworks.todo_list.repository.task.TaskRepository;
 
 import java.util.Calendar;
 
@@ -96,14 +96,14 @@ public class AddTaskActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_task_confirm)
     void createTask() {
-        addTaskViewModel.createTask(mIsFinish.isChecked(), mBtnDate.getText().toString(), mIsRemind.isChecked(),
+        addTaskViewModel.createTask(currentUser,mIsFinish.isChecked(), mBtnDate.getText().toString(), mIsRemind.isChecked(),
                 mEditHeader.getText().toString(), mEditDescription.getText().toString());
     }
 
     private AddTaskViewModel obtainViewModel() {
-        UserRepository userRepository = (((MainApplication) getApplicationContext())).userRepository();
+        TaskRepository taskRepository = (((MainApplication) getApplicationContext())).getTaskRepository();
         AddTaskViewModel addTaskViewModel = new ViewModelProvider(this).get(AddTaskViewModel.class);
-        addTaskViewModel.initAddTaskViewModel(userRepository);
+        addTaskViewModel.initAddTaskViewModel(taskRepository);
         return addTaskViewModel;
     }
 }

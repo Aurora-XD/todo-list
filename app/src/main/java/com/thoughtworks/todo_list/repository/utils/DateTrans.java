@@ -1,22 +1,32 @@
 package com.thoughtworks.todo_list.repository.utils;
 
+import android.util.Log;
+
 import androidx.room.TypeConverter;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Pattern;
 
 public class DateTrans {
+    public static final String TAG = "Date transform";
 
     @TypeConverter
     public static Date stringToDate(String value) {
         SimpleDateFormat format = new SimpleDateFormat("yyyy年MM月dd日");
         Date date = null;
-        try {
-            date = format.parse(value);
-        } catch (ParseException e) {
-            e.printStackTrace();
+        if (!Pattern.matches("\\d{4}.{1}\\d{2}.{1}\\d{2}.{1}",value)) {
+            Log.d(TAG, "No date selected by current user!");
+            return date;
+        } else {
+            try {
+                date = format.parse(value);
+            } catch (ParseException e) {
+                Log.d(TAG, "Transform failed!");
+                e.printStackTrace();
+            }
         }
         return date;
     }

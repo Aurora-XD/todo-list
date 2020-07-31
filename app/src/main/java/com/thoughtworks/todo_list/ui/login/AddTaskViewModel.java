@@ -8,17 +8,17 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import com.thoughtworks.todo_list.repository.user.UserRepository;
+import com.thoughtworks.todo_list.repository.task.TaskRepository;
 import com.thoughtworks.todo_list.repository.utils.DateTrans;
 
 import java.util.Objects;
 
 public class AddTaskViewModel extends ViewModel {
-    private UserRepository userRepository;
+    private TaskRepository taskRepository;
     private MutableLiveData<Boolean> isTaskValid = new MutableLiveData<>();
 
-    void initAddTaskViewModel(UserRepository userRepository){
-        this.userRepository = userRepository;
+    void initAddTaskViewModel(TaskRepository taskRepository){
+        this.taskRepository = taskRepository;
         isTaskValid.postValue(false);
     }
 
@@ -26,8 +26,8 @@ public class AddTaskViewModel extends ViewModel {
         isTaskValid.observe(owner,observer);
     }
 
-    public void createTask(boolean checked, String date, boolean mIsRemindChecked, String header, String description){
-        Log.d("AddTaskViewModel", "isfinish: "+checked+"\n"+"date: "+ DateTrans.stringToDate(date).toString() +"\n"+
+    public void createTask(String currentUser, boolean checked, String date, boolean mIsRemindChecked, String header, String description){
+        Log.d("AddTaskViewModel", "username: "+currentUser+"\n"+"isfinish: "+checked+"\n"+"date: "+ DateTrans.stringToDate(date).toString() +"\n"+
                 "isRemind: "+mIsRemindChecked+"\n"+"header: "+header+"\n"+"des: "+description);
     }
 

@@ -17,7 +17,8 @@ public class MainApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        AppDatabase appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, this.getClass().getSimpleName()).build();
+        AppDatabase appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, this.getClass().getSimpleName())
+                .fallbackToDestructiveMigration().build();
         userRepository = new UserRepositoryImpl(appDatabase.userDBDataSource());
         taskRepository = new TaskRepositoryImpl(appDatabase.taskDataSource());
     }
