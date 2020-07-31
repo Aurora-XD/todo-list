@@ -140,6 +140,7 @@ public class LoginViewModel extends ViewModel {
 
     @Override
     protected void onCleared() {
+        userRepository = null;
         compositeDisposable.clear();
         super.onCleared();
     }

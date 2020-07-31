@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.thoughtworks.todo_list.ui.login.AddTaskActivity">
 
-    <FrameLayout
-        android:id="@+id/add_task_bar"
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:background="@color/color_background"
-        android:padding="@dimen/activity_horizontal_margin">
+        android:layout_height="wrap_content">
 
-        <CheckBox
-            android:id="@+id/add_task_is_finish"
-            android:layout_width="wrap_content"
+        <FrameLayout
+            android:id="@+id/add_task_bar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="left|center"
-            android:buttonTint="@android:color/holo_blue_light"/>
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:background="@color/color_background"
+            android:padding="@dimen/activity_horizontal_margin">
 
-        <Button
-            android:id="@+id/add_task_date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_add_task_button_date"
-            android:layout_gravity="center"
-            style="?android:attr/borderlessButtonStyle"/>
+            <CheckBox
+                android:id="@+id/add_task_is_finish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center"
+                android:buttonTint="@android:color/holo_blue_light"/>
 
-        <Switch
-            android:id="@+id/add_task_remind"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/text_add_task_switch"
-            android:layout_gravity="right|center"/>
+            <Button
+                android:id="@+id/add_task_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_add_task_button_date"
+                android:layout_gravity="center"
+                style="?android:attr/borderlessButtonStyle"/>
 
-    </FrameLayout>
+            <Switch
+                android:id="@+id/add_task_remind"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/text_add_task_switch"
+                android:layout_gravity="right|center"/>
 
-    <EditText
-        android:id="@+id/add_task_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="@dimen/activity_horizontal_margin"
-        app:layout_constraintTop_toBottomOf="@+id/add_task_bar"
-        android:hint="@string/text_add_task_header"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        android:background="@null"
-        android:textColorHint="@color/color_header_hint"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/add_task_header"
-        app:layout_constraintStart_toStartOf="parent"
-        android:paddingHorizontal="@dimen/activity_horizontal_margin"
-        android:scrollbars="none">
+        </FrameLayout>
 
         <EditText
-            android:id="@+id/add_task_description"
-            android:layout_width="wrap_content"
+            android:id="@+id/add_task_header"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/text_add_task_description"
-            android:background="@null"/>
+            android:padding="@dimen/activity_horizontal_margin"
+            app:layout_constraintTop_toBottomOf="@+id/add_task_bar"
+            android:hint="@string/text_add_task_header"
+            android:textSize="30sp"
+            android:textStyle="bold"
+            android:background="@null"
+            android:textColorHint="@color/color_header_hint"
+            />
 
-    </ScrollView>
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/add_task_header"
+            app:layout_constraintStart_toStartOf="parent"
+            android:paddingHorizontal="@dimen/activity_horizontal_margin"
+            android:scrollbars="none">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+            <EditText
+                android:id="@+id/add_task_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/text_add_task_description"
+                android:background="@null"/>
 
-        <Button
-            android:id="@+id/add_task_confirm"
-            android:layout_width="@dimen/button_diameter"
-            android:layout_height="@dimen/button_diameter"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:layout_gravity="bottom|right"
-            android:background="@drawable/check_selected"/>
+        </ScrollView>
+    </LinearLayout>
 
-    </FrameLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Button
+        android:id="@+id/add_task_confirm"
+        android:layout_width="@dimen/float_button_diameter"
+        android:layout_height="@dimen/float_button_diameter"
+        android:layout_margin="@dimen/float_margin"
+        android:layout_gravity="bottom|right"
+        android:background="@drawable/check_selected"/>
+
+</FrameLayout>
