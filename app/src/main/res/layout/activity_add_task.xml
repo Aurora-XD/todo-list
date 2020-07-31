@@ -9,15 +9,12 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent">
 
         <FrameLayout
             android:id="@+id/add_task_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             android:background="@color/color_background"
             android:padding="@dimen/activity_horizontal_margin">
 
@@ -61,8 +58,6 @@
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/add_task_header"
-            app:layout_constraintStart_toStartOf="parent"
             android:paddingHorizontal="@dimen/activity_horizontal_margin"
             android:scrollbars="none">
 
