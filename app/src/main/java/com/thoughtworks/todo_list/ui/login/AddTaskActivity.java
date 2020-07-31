@@ -2,6 +2,9 @@ package com.thoughtworks.todo_list.ui.login;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -9,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Switch;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
 import com.thoughtworks.todo_list.MainApplication;
@@ -40,6 +44,9 @@ public class AddTaskActivity extends AppCompatActivity {
     @BindView(R.id.add_task_description)
     EditText mEditDescription;
 
+    @BindView(R.id.add_task_confirm)
+    Button mBtnConfirm;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +55,31 @@ public class AddTaskActivity extends AppCompatActivity {
         currentUser = getIntent().getExtras().getString(getString(R.string.prompt_username));
 
         addTaskViewModel = obtainViewModel();
+
+        addTaskViewModel.observeIsTaskValid(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Log.d("TAG", "mBtnConfirm: " + aBoolean);
+                mBtnConfirm.setEnabled(aBoolean);
+            }
+        });
+
+        TextWatcher textWatcher = new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                addTaskViewModel.checkTask(mBtnDate.getText().toString(), mEditHeader.getText().toString());
+            }
+        };
+        mEditHeader.addTextChangedListener(textWatcher);
+        mBtnDate.addTextChangedListener(textWatcher);
     }
 
     @OnClick(R.id.add_task_date)
@@ -70,7 +102,7 @@ public class AddTaskActivity extends AppCompatActivity {
     private AddTaskViewModel obtainViewModel() {
         UserRepository userRepository = (((MainApplication) getApplicationContext())).userRepository();
         AddTaskViewModel addTaskViewModel = new ViewModelProvider(this).get(AddTaskViewModel.class);
-        addTaskViewModel.setUserRepository(userRepository);
+        addTaskViewModel.initAddTaskViewModel(userRepository);
         return addTaskViewModel;
     }
 }
