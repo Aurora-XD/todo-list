@@ -3,7 +3,7 @@ package com.thoughtworks.todo_list.repository.user.entity;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 public class Task {
@@ -11,7 +11,7 @@ public class Task {
     private int id;
     private String username;
     private boolean isFinish;
-    private LocalDateTime deadline;
+    private Date deadline;
     private boolean isRemind;
     private String header;
     private String description;
@@ -19,7 +19,7 @@ public class Task {
     public Task() {
     }
 
-    public Task(String username, boolean isFinish, LocalDateTime deadline, boolean isRemind, String header, String description) {
+    public Task(String username, boolean isFinish, Date deadline, boolean isRemind, String header, String description) {
         this.username = username;
         this.isFinish = isFinish;
         this.deadline = deadline;
@@ -40,7 +40,7 @@ public class Task {
         return isFinish;
     }
 
-    public LocalDateTime getDeadline() {
+    public Date getDeadline() {
         return deadline;
     }
 
@@ -68,7 +68,7 @@ public class Task {
         isFinish = finish;
     }
 
-    public void setDeadline(LocalDateTime deadline) {
+    public void setDeadline(Date deadline) {
         this.deadline = deadline;
     }
 

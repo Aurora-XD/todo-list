@@ -4,7 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class DataUtil {
+public class DateUtil {
 
     public static Date stringToDate(String value) {
         SimpleDateFormat format =   new SimpleDateFormat( "yyyy年MM月dd日" );

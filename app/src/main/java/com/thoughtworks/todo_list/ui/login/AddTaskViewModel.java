@@ -1,13 +1,10 @@
 package com.thoughtworks.todo_list.ui.login;
 
-import android.service.autofill.DateTransformation;
 import android.util.Log;
 
 import androidx.lifecycle.ViewModel;
 
-import com.thoughtworks.todo_list.repository.utils.DataUtil;
-
-import java.text.ParseException;
+import com.thoughtworks.todo_list.repository.utils.DateUtil;
 
 public class AddTaskViewModel extends ViewModel {
     private UserRepository userRepository;
@@ -17,7 +14,7 @@ public class AddTaskViewModel extends ViewModel {
     }
 
     public void createTask(boolean checked, String date, boolean mIsRemindChecked, String header, String description){
-        Log.d("AddTaskViewModel", "isfinish: "+checked+"\n"+"date: "+ DataUtil.stringToDate(date).toString() +"\n"+
+        Log.d("AddTaskViewModel", "isfinish: "+checked+"\n"+"date: "+ DateUtil.stringToDate(date).toString() +"\n"+
                 "isRemind: "+mIsRemindChecked+"\n"+"header: "+header+"\n"+"des: "+description);
     }
 }
