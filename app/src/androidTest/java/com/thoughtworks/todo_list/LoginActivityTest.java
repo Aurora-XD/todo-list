@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.rule.ActivityTestRule;
 
-import com.thoughtworks.todo_list.ui.login.UserRepository;
+import com.thoughtworks.todo_list.repository.user.UserRepository;
 import com.thoughtworks.todo_list.repository.user.entity.User;
 import com.thoughtworks.todo_list.repository.utils.Encryptor;
 import com.thoughtworks.todo_list.ui.login.LoginActivity;

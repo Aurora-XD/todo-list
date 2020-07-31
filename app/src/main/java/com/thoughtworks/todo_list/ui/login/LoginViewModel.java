@@ -10,6 +10,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
 import com.thoughtworks.todo_list.R;
+import com.thoughtworks.todo_list.repository.user.UserRepository;
 import com.thoughtworks.todo_list.repository.user.entity.User;
 import com.thoughtworks.todo_list.repository.utils.Encryptor;
 import com.thoughtworks.todo_list.repository.utils.HttpUtil;

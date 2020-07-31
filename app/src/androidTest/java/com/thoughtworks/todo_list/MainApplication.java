@@ -2,7 +2,7 @@ package com.thoughtworks.todo_list;
 
 import android.app.Application;
 
-import com.thoughtworks.todo_list.ui.login.UserRepository;
+import com.thoughtworks.todo_list.repository.user.UserRepository;
 import com.thoughtworks.todo_list.repository.user.UserRepositoryImpl;
 
 import static org.mockito.Mockito.mock;

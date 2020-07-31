@@ -1,4 +1,4 @@
-package com.thoughtworks.todo_list.repository.user.entity;
+package com.thoughtworks.todo_list.repository.task.entity;
 
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;

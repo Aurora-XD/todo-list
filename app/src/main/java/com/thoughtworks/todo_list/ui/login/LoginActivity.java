@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -16,6 +17,10 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
+import com.thoughtworks.todo_list.repository.user.UserRepository;
+
+import java.util.Calendar;
+import java.util.Date;
 
 public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
@@ -30,6 +35,13 @@ public class LoginActivity extends AppCompatActivity {
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(new Date());
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int day = calendar.get(Calendar.DAY_OF_MONTH);
+        Log.d("DATE", "onCreate: "+year+ "年" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "月" + day + "日");
 
         loginViewModel.observeLoginFormState(this, loginFormState -> {
             if (loginFormState == null) {

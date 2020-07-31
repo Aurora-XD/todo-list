@@ -8,7 +8,8 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModel;
 
-import com.thoughtworks.todo_list.repository.utils.DateUtil;
+import com.thoughtworks.todo_list.repository.user.UserRepository;
+import com.thoughtworks.todo_list.repository.utils.DateTrans;
 
 import java.util.Objects;
 
@@ -26,12 +27,12 @@ public class AddTaskViewModel extends ViewModel {
     }
 
     public void createTask(boolean checked, String date, boolean mIsRemindChecked, String header, String description){
-        Log.d("AddTaskViewModel", "isfinish: "+checked+"\n"+"date: "+ DateUtil.stringToDate(date).toString() +"\n"+
+        Log.d("AddTaskViewModel", "isfinish: "+checked+"\n"+"date: "+ DateTrans.stringToDate(date).toString() +"\n"+
                 "isRemind: "+mIsRemindChecked+"\n"+"header: "+header+"\n"+"des: "+description);
     }
 
     public void checkTask(String date, String header) {
-        if(Objects.isNull(DateUtil.stringToDate(date)) || TextUtils.isEmpty(header)){
+        if(Objects.isNull(DateTrans.stringToDate(date)) || TextUtils.isEmpty(header)){
             isTaskValid.postValue(false);
         }else {
             isTaskValid.postValue(true);

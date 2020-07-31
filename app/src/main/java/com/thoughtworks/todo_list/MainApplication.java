@@ -5,23 +5,25 @@ import android.app.Application;
 import androidx.room.Room;
 
 import com.thoughtworks.todo_list.repository.AppDatabase;
-import com.thoughtworks.todo_list.repository.user.UserDataSource;
-import com.thoughtworks.todo_list.ui.login.UserRepository;
+import com.thoughtworks.todo_list.repository.task.TaskRepository;
+import com.thoughtworks.todo_list.repository.task.TaskRepositoryImpl;
+import com.thoughtworks.todo_list.repository.user.UserRepository;
 import com.thoughtworks.todo_list.repository.user.UserRepositoryImpl;
 
 public class MainApplication extends Application {
     private UserRepository userRepository;
+    private TaskRepository taskRepository;
 
     @Override
     public void onCreate() {
         super.onCreate();
-        userRepository = new UserRepositoryImpl(userDataSource());
+        AppDatabase appDatabase = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, this.getClass().getSimpleName()).build();
+        userRepository = new UserRepositoryImpl(appDatabase.userDBDataSource());
+        taskRepository = new TaskRepositoryImpl(appDatabase.taskDataSource());
     }
 
-
-    public UserDataSource userDataSource() {
-        AppDatabase db = Room.databaseBuilder(getApplicationContext(), AppDatabase.class, this.getClass().getSimpleName()).build();
-        return db.userDBDataSource();
+    public TaskRepository getTaskRepository() {
+        return taskRepository;
     }
 
     public UserRepository userRepository() {

@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.thoughtworks.todo_list.repository.AppDatabase;
-import com.thoughtworks.todo_list.ui.login.UserRepository;
+import com.thoughtworks.todo_list.repository.user.UserRepository;
 import com.thoughtworks.todo_list.repository.user.UserRepositoryImpl;
 import com.thoughtworks.todo_list.repository.user.entity.User;
 
