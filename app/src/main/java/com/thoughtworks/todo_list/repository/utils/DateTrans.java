@@ -32,13 +32,17 @@ public class DateTrans {
     }
 
     @TypeConverter
-    public static String dataToString(Date date) {
+    public static String dateToString(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
         int year = calendar.get(Calendar.YEAR);
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        return dateStringFormat(year,month,day);
+    }
+
+    public static String dateStringFormat(int year,int month,int day){
         return year + "年" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "月" + (day < 10 ? "0" + day : day) + "日";
     }
 }

@@ -19,6 +19,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
 import com.thoughtworks.todo_list.repository.task.TaskRepository;
+import com.thoughtworks.todo_list.repository.utils.DateTrans;
 
 import java.util.Calendar;
 
@@ -98,7 +99,7 @@ public class AddTaskActivity extends AppCompatActivity {
         new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                mBtnDate.setText(year + "年" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "月" + (day < 10 ? "0" + day : day) + "日");
+                mBtnDate.setText(DateTrans.dateStringFormat(year,month,day));
             }
         }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH)).show();
     }
