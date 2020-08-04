@@ -1,6 +1,7 @@
 package com.thoughtworks.todo_list.repository.utils;
 
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.thoughtworks.todo_list.repository.task.entity.Task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     List<Task> allTask = new ArrayList<>();
@@ -48,7 +50,7 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
         if(task.isFinish()){
             holder.mIsFinish.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
-        holder.mDeadline.setText(task.getDeadline().toString());
+        holder.mDeadline.setText(DateTrans.dateToString(task.getDeadline()).split("年")[1]);
     }
 
     @Override
