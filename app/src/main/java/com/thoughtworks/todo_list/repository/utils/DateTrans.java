@@ -39,6 +39,6 @@ public class DateTrans {
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        return year + "年" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "月" + day + "日";
+        return year + "年" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "月" + (day < 10 ? "0" + day : day) + "日";
     }
 }

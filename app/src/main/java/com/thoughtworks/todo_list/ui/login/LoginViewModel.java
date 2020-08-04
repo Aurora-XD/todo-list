@@ -56,6 +56,7 @@ public class LoginViewModel extends ViewModel {
     @SuppressLint("CheckResult")
     public void login(String username, String password) {
         insertInitUser();
+        Log.d(TAG, "login: "+"insertInitUser");
         Disposable loginDisposable = userRepository.findByName(username).subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
                 .doOnComplete(() -> loginResult.setValue(new LoginResult(R.string.login_failed_username)))
                 .subscribe(u -> {
@@ -95,6 +96,8 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void insertInitUser() {
+        Log.d(TAG, "login: "+"insertInitUser 3");
+
         Disposable getUserDisposable = userRepository.findByName(USERNAME)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -109,16 +112,21 @@ public class LoginViewModel extends ViewModel {
     }
 
     public void getUserFromNetwork() {
+        Log.d(TAG, "login: "+"insertInitUser 4");
+
         Disposable networkDisposable = Observable.create(new ObservableOnSubscribe<User>() {
             @Override
             public void subscribe(ObservableEmitter<User> emitter) throws Exception {
                 try {
                     User initUser = HttpUtil.getUserFromNetwork();
+                    Log.d(TAG, "login: "+"insertInitUser 4"+initUser.getName());
+
                     if (!emitter.isDisposed() && Objects.nonNull(initUser)) {
                         emitter.onNext(initUser);
                         emitter.onComplete();
                     }
                 } catch (Exception e) {
+                    Log.d(TAG, "login: "+"insertInitUser 5");
                     emitter.onError(e);
                 }
             }
