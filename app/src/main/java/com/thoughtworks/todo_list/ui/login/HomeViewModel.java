@@ -9,7 +9,10 @@ import androidx.lifecycle.ViewModel;
 
 import com.thoughtworks.todo_list.repository.task.TaskRepository;
 import com.thoughtworks.todo_list.repository.task.entity.Task;
+import com.thoughtworks.todo_list.repository.utils.DateTrans;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -21,6 +24,7 @@ import io.reactivex.schedulers.Schedulers;
 public class HomeViewModel extends ViewModel {
     private TaskRepository taskRepository;
     private MutableLiveData<List<Task>> allTask = new MutableLiveData<>();
+    private MutableLiveData<Date> today = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     public void setTaskRepository(TaskRepository taskRepository) {
@@ -29,6 +33,10 @@ public class HomeViewModel extends ViewModel {
 
     public void observeAllTask(LifecycleOwner owner, Observer<List<Task>> observer){
         allTask.observe(owner,observer);
+    }
+
+    public void observeToday(LifecycleOwner owner, Observer<Date> observer){
+        today.observe(owner,observer);
     }
 
     public void getAllTask(String name) {
@@ -47,6 +55,18 @@ public class HomeViewModel extends ViewModel {
                     }
                 });
         compositeDisposable.add(disposable);
+    }
+
+    public void getCurrentDate(){
+        today.postValue(Calendar.getInstance().getTime());
+    }
+
+    public String getDayOfDate(){
+        return DateTrans.getWeekOfMonth(today.getValue())+", "+DateTrans.getDayOfMonth(today.getValue());
+    }
+
+    public String getMonthOfDate(){
+        return DateTrans.getMonth(today.getValue());
     }
 
     @Override

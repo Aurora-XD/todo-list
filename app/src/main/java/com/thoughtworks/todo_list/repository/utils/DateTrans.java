@@ -35,14 +35,28 @@ public class DateTrans {
     public static String dateToString(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        return dateStringFormat(year,month,day);
+        SimpleDateFormat fm = new SimpleDateFormat("yyyy年MM月dd日");
+        return fm.format(date);
     }
 
     public static String dateStringFormat(int year,int month,int day){
         return year + "年" + ((month + 1) < 10 ? "0" + (month + 1) : (month + 1)) + "月" + (day < 10 ? "0" + day : day) + "日";
+    }
+
+    public static String getDayOfMonth(Date date){
+        SimpleDateFormat sf = new SimpleDateFormat("dd");
+        return sf.format(date) + "th";
+    }
+
+    public static String getWeekOfMonth(Date date){
+        SimpleDateFormat sf = new SimpleDateFormat("EEEE");
+
+        return sf.format(date);
+    }
+
+    public static String getMonth(Date date){
+        SimpleDateFormat sf = new SimpleDateFormat("MMMM");
+        return sf.format(date);
     }
 }

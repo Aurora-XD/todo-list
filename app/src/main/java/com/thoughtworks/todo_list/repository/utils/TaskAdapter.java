@@ -16,7 +16,6 @@ import com.thoughtworks.todo_list.repository.task.entity.Task;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     List<Task> allTask = new ArrayList<>();

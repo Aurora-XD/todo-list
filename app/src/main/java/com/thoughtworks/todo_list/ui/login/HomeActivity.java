@@ -16,6 +16,7 @@ import com.thoughtworks.todo_list.repository.task.TaskRepository;
 import com.thoughtworks.todo_list.repository.task.entity.Task;
 import com.thoughtworks.todo_list.repository.utils.TaskAdapter;
 
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
@@ -28,6 +29,12 @@ public class HomeActivity extends AppCompatActivity {
 
     @BindView(R.id.home_task_count)
     TextView mTextCount;
+
+    @BindView(R.id.home_date_day)
+    TextView mDateDay;
+
+    @BindView(R.id.home_date_month)
+    TextView mDateMonth;
 
     private TaskAdapter taskAdapter;
 
@@ -44,6 +51,16 @@ public class HomeActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(taskAdapter);
 
         homeViewModel = obtainViewModel();
+
+        homeViewModel.getCurrentDate();
+
+        homeViewModel.observeToday(this, new Observer<Date>() {
+            @Override
+            public void onChanged(Date date) {
+                mDateDay.setText(homeViewModel.getDayOfDate());
+                mDateMonth.setText(homeViewModel.getMonthOfDate());
+            }
+        });
 
         homeViewModel.observeAllTask(this, new Observer<List<Task>>() {
             @Override
