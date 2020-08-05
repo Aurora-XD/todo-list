@@ -12,4 +12,5 @@ public interface TaskDateSource {
     Maybe<List<Task>> getAllTask(String name);
     Completable updateTask(Task task);
     Maybe<Task> findTaskById(int taskId);
+    Completable deleteTask(Task task);
 }

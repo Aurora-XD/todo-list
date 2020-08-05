@@ -89,6 +89,14 @@ public class AddTaskActivity extends AppCompatActivity {
                 finish();
             }
         });
+        addTaskViewModel.observeDeleteUpdateTaskResult(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
 
         addTaskViewModel.observeCreateTaskResult(this, new Observer<Boolean>() {
             @Override
@@ -155,6 +163,11 @@ public class AddTaskActivity extends AppCompatActivity {
             addTaskViewModel.createTask(((MainApplication) getApplicationContext()).getCurrentUser().getName(),mIsFinish.isChecked(), mBtnDate.getText().toString(), mIsRemind.isChecked(),
                     mEditHeader.getText().toString(), mEditDescription.getText().toString());
         }
+    }
+
+    @OnClick(R.id.task_detail_delete)
+    void deleteTask(){
+        addTaskViewModel.deleteTask();
     }
 
     private AddTaskViewModel obtainViewModel() {

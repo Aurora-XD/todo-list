@@ -27,6 +27,7 @@ public class AddTaskViewModel extends ViewModel {
     private MutableLiveData<Boolean> createTaskResult = new MutableLiveData<>();
     private MutableLiveData<Task> taskDetail = new MutableLiveData<>();
     private MutableLiveData<Boolean> updateTaskResult = new MutableLiveData<>();
+    private MutableLiveData<Boolean> deleteTaskResult = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     public static final String TAG = "AddTaskViewModel";
 
@@ -49,6 +50,10 @@ public class AddTaskViewModel extends ViewModel {
 
     public void observeUpdateTaskResult(LifecycleOwner owner, Observer<Boolean> observer) {
         updateTaskResult.observe(owner, observer);
+    }
+
+    public void observeDeleteUpdateTaskResult(LifecycleOwner owner, Observer<Boolean> observer) {
+        deleteTaskResult.observe(owner, observer);
     }
 
     public void createTask(String currentUser, boolean isFinish, String date, boolean isRemind, String header, String description) {
@@ -128,5 +133,29 @@ public class AddTaskViewModel extends ViewModel {
                     }
                 });
         compositeDisposable.add(updateTaskDisposable);
+    }
+
+    public void deleteTask() {
+        if(Objects.nonNull(taskDetail.getValue())){
+            Disposable deleteDisposable = taskRepository.deleteTask(taskDetail.getValue())
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Action() {
+                        @Override
+                        public void run() throws Exception {
+                            deleteTaskResult.setValue(true);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            deleteTaskResult.setValue(false);
+                        }
+                    });
+
+            compositeDisposable.add(deleteDisposable);
+
+        }else {
+            return;
+        }
     }
 }

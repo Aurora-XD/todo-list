@@ -35,4 +35,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         return taskDateSource.findTaskById(taskId);
     }
 
+    @Override
+    public Completable deleteTask(Task task) {
+        return taskDateSource.deleteTask(task);
+    }
+
 }
