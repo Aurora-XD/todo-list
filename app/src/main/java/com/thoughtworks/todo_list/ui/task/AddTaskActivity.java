@@ -81,6 +81,15 @@ public class AddTaskActivity extends AppCompatActivity {
             }
         });
 
+        addTaskViewModel.observeUpdateTaskResult(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                Intent intent = new Intent(getApplicationContext(), HomeActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         addTaskViewModel.observeCreateTaskResult(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
@@ -139,8 +148,13 @@ public class AddTaskActivity extends AppCompatActivity {
 
     @OnClick(R.id.add_task_confirm)
     void createTask() {
-        addTaskViewModel.createTask(((MainApplication) getApplicationContext()).getCurrentUser().getName(),mIsFinish.isChecked(), mBtnDate.getText().toString(), mIsRemind.isChecked(),
-                mEditHeader.getText().toString(), mEditDescription.getText().toString());
+        if(Objects.nonNull(this.getIntent().getExtras())){
+            addTaskViewModel.updateTask(mIsFinish.isChecked(), mBtnDate.getText().toString(), mIsRemind.isChecked(),
+                    mEditHeader.getText().toString(), mEditDescription.getText().toString());
+        }else {
+            addTaskViewModel.createTask(((MainApplication) getApplicationContext()).getCurrentUser().getName(),mIsFinish.isChecked(), mBtnDate.getText().toString(), mIsRemind.isChecked(),
+                    mEditHeader.getText().toString(), mEditDescription.getText().toString());
+        }
     }
 
     private AddTaskViewModel obtainViewModel() {

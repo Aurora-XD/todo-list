@@ -26,6 +26,7 @@ public class AddTaskViewModel extends ViewModel {
     private MutableLiveData<Boolean> isTaskValid = new MutableLiveData<>();
     private MutableLiveData<Boolean> createTaskResult = new MutableLiveData<>();
     private MutableLiveData<Task> taskDetail = new MutableLiveData<>();
+    private MutableLiveData<Boolean> updateTaskResult = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     public static final String TAG = "AddTaskViewModel";
 
@@ -44,6 +45,10 @@ public class AddTaskViewModel extends ViewModel {
 
     public void observeTaskDetail(LifecycleOwner owner, Observer<Task> observer) {
         taskDetail.observe(owner, observer);
+    }
+
+    public void observeUpdateTaskResult(LifecycleOwner owner, Observer<Boolean> observer) {
+        updateTaskResult.observe(owner, observer);
     }
 
     public void createTask(String currentUser, boolean isFinish, String date, boolean isRemind, String header, String description) {
@@ -96,5 +101,32 @@ public class AddTaskViewModel extends ViewModel {
         taskRepository = null;
         compositeDisposable.clear();
         super.onCleared();
+    }
+
+    public void updateTask(boolean isFinish, String date, boolean isRemind, String header, String description) {
+        Task currentTask = taskDetail.getValue();
+        currentTask.setFinish(isFinish);
+        currentTask.setDeadline(DateTrans.stringToDate(date));
+        currentTask.setRemind(isRemind);
+        currentTask.setHeader(header);
+        currentTask.setDescription(description);
+
+        Disposable updateTaskDisposable = taskRepository.updateTask(currentTask)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action() {
+                    @Override
+                    public void run() throws Exception {
+                        Log.d(TAG, "Update task detail successfully!");
+                        updateTaskResult.setValue(true);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        Log.d(TAG, "Update task detail failed!");
+                        updateTaskResult.setValue(false);
+                    }
+                });
+        compositeDisposable.add(updateTaskDisposable);
     }
 }
