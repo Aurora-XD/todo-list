@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.DatePicker;
@@ -19,14 +20,18 @@ import androidx.lifecycle.ViewModelProvider;
 import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
 import com.thoughtworks.todo_list.repository.task.TaskRepository;
+import com.thoughtworks.todo_list.repository.task.entity.Task;
 import com.thoughtworks.todo_list.repository.utils.DateTrans;
 import com.thoughtworks.todo_list.ui.home.HomeActivity;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import static com.thoughtworks.todo_list.ui.home.HomeActivity.TASK_ID;
 
 public class AddTaskActivity extends AppCompatActivity {
     private AddTaskViewModel addTaskViewModel;
@@ -49,6 +54,9 @@ public class AddTaskActivity extends AppCompatActivity {
     @BindView(R.id.add_task_confirm)
     Button mBtnConfirm;
 
+    @BindView(R.id.task_detail_delete)
+    Button mBtnDelete;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,12 +64,20 @@ public class AddTaskActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         addTaskViewModel = obtainViewModel();
+        getTaskDetail(this.getIntent());
 
         addTaskViewModel.observeIsTaskValid(this, new Observer<Boolean>() {
             @Override
             public void onChanged(Boolean aBoolean) {
                 Log.d("TAG", "mBtnConfirm: " + aBoolean);
                 mBtnConfirm.setEnabled(aBoolean);
+            }
+        });
+
+        addTaskViewModel.observeTaskDetail(this, new Observer<Task>() {
+            @Override
+            public void onChanged(Task task) {
+                fillTaskDetail(task);
             }
         });
 
@@ -92,6 +108,22 @@ public class AddTaskActivity extends AppCompatActivity {
         };
         mEditHeader.addTextChangedListener(textWatcher);
         mBtnDate.addTextChangedListener(textWatcher);
+    }
+
+    private void getTaskDetail(Intent intent){
+        if(Objects.nonNull(intent.getExtras())){
+            int taskId = intent.getExtras().getInt(TASK_ID);
+            addTaskViewModel.getTaskDetail(taskId);
+        }
+    }
+
+    private void fillTaskDetail(Task task){
+        mBtnDelete.setVisibility(View.VISIBLE);
+        mIsFinish.setChecked(task.isFinish());
+        mBtnDate.setText(DateTrans.dateToString(task.getDeadline()));
+        mIsRemind.setChecked(task.isRemind());
+        mEditHeader.setText(task.getHeader());
+        mEditDescription.setText(task.getDescription());
     }
 
     @OnClick(R.id.add_task_date)

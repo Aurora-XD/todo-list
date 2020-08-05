@@ -22,4 +22,7 @@ public interface DBTaskDataSource extends TaskDateSource {
 
     @Update
     Completable updateTask(Task task);
+
+    @Query("select * from task where id = :taskId")
+    Maybe<Task> findTaskById(int taskId);
 }

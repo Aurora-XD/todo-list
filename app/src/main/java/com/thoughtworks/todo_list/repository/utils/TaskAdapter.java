@@ -70,6 +70,13 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
                 activity.updateTaskIsFinish(task,holder.mIsFinish.isChecked());
             }
         });
+
+        holder.mTaskHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                activity.goTaskDetail(task.getId());
+            }
+        });
     }
 
     @Override

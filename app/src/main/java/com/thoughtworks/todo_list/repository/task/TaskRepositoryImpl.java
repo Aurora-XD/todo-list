@@ -30,4 +30,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         return taskDateSource.updateTask(task);
     }
 
+    @Override
+    public Maybe<Task> findTaskById(int taskId) {
+        return taskDateSource.findTaskById(taskId);
+    }
+
 }

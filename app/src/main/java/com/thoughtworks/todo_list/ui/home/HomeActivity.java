@@ -26,6 +26,9 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class HomeActivity extends AppCompatActivity {
+
+    public static final String TASK_ID = "taskId";
+
     @BindView(R.id.home_recycler_view)
     RecyclerView mRecyclerView;
 
@@ -103,5 +106,11 @@ public class HomeActivity extends AppCompatActivity {
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
         homeViewModel.initHomeViewModel(taskRepository);
         return homeViewModel;
+    }
+
+    public void goTaskDetail(int id) {
+        Intent intent = new Intent(this, AddTaskActivity.class);
+        intent.putExtra(TASK_ID,id);
+        startActivity(intent);
     }
 }

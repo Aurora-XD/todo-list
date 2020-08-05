@@ -25,6 +25,7 @@ public class AddTaskViewModel extends ViewModel {
     private TaskRepository taskRepository;
     private MutableLiveData<Boolean> isTaskValid = new MutableLiveData<>();
     private MutableLiveData<Boolean> createTaskResult = new MutableLiveData<>();
+    private MutableLiveData<Task> taskDetail = new MutableLiveData<>();
     private CompositeDisposable compositeDisposable = new CompositeDisposable();
     public static final String TAG = "AddTaskViewModel";
 
@@ -39,6 +40,10 @@ public class AddTaskViewModel extends ViewModel {
 
     public void observeCreateTaskResult(LifecycleOwner owner, Observer<Boolean> observer) {
         createTaskResult.observe(owner, observer);
+    }
+
+    public void observeTaskDetail(LifecycleOwner owner, Observer<Task> observer) {
+        taskDetail.observe(owner, observer);
     }
 
     public void createTask(String currentUser, boolean isFinish, String date, boolean isRemind, String header, String description) {
@@ -61,6 +66,21 @@ public class AddTaskViewModel extends ViewModel {
                     }
                 });
         compositeDisposable.add(createTaskDisposable);
+    }
+
+    public void getTaskDetail(int taskId) {
+        Disposable detailDisposable = taskRepository.findTaskById(taskId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnComplete(() -> Log.d(TAG, "Task not found, task id is " + taskId))
+                .subscribe(new Consumer<Task>() {
+                    @Override
+                    public void accept(Task task) throws Exception {
+                        taskDetail.setValue(task);
+                    }
+                });
+
+        compositeDisposable.add(detailDisposable);
     }
 
     public void checkTask(String date, String header) {
