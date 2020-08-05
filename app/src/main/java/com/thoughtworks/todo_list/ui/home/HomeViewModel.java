@@ -65,6 +65,12 @@ public class HomeViewModel extends ViewModel {
         compositeDisposable.add(disposable);
     }
 
+
+    public void updateTaskIsFinish(Task task, Boolean isFinish) {
+        task.setFinish(isFinish);
+        updateTask(task);
+    }
+
     public void updateTask(Task task) {
         Disposable updateTaskDisposable = taskRepository.updateTask(task)
                 .subscribeOn(Schedulers.io())

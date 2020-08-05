@@ -87,8 +87,8 @@ public class HomeActivity extends AppCompatActivity {
         homeViewModel.getAllTask(((MainApplication) getApplicationContext()).getCurrentUser().getName());
     }
 
-    public void updateTask(Task task){
-        homeViewModel.updateTask(task);
+    public void updateTaskIsFinish(Task task,Boolean isFinish){
+        homeViewModel.updateTaskIsFinish(task,isFinish);
     }
 
     @OnClick(R.id.home_button_add_task)
