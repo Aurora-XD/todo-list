@@ -25,4 +25,9 @@ public class TaskRepositoryImpl implements TaskRepository {
         return taskDateSource.getAllTask(name);
     }
 
+    @Override
+    public Completable updateTask(Task task) {
+        return taskDateSource.updateTask(task);
+    }
+
 }

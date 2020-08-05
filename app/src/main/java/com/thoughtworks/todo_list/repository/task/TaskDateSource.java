@@ -10,4 +10,5 @@ import io.reactivex.Maybe;
 public interface TaskDateSource {
     Completable saveTask(Task task);
     Maybe<List<Task>> getAllTask(String name);
+    Completable updateTask(Task task);
 }

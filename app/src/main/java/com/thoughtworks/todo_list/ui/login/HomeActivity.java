@@ -2,6 +2,7 @@ package com.thoughtworks.todo_list.ui.login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -46,11 +47,12 @@ public class HomeActivity extends AppCompatActivity {
         setContentView(R.layout.activiey_home);
 
         ButterKnife.bind(this);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        taskAdapter = new TaskAdapter();
-        mRecyclerView.setAdapter(taskAdapter);
 
         homeViewModel = obtainViewModel();
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        taskAdapter = new TaskAdapter(this);
+        mRecyclerView.setAdapter(taskAdapter);
 
         homeViewModel.getCurrentDate();
 
@@ -62,20 +64,31 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
+        homeViewModel.observeUpdateTask(this, new Observer<Boolean>() {
+            @Override
+            public void onChanged(Boolean aBoolean) {
+                refreshTaskList();
+            }
+        });
+
         homeViewModel.observeAllTask(this, new Observer<List<Task>>() {
             @Override
             public void onChanged(List<Task> tasks) {
+                Log.d("taskId", "taskId:" + tasks.toString());
                 mTextCount.setText(tasks.size()+"个任务");
                 taskAdapter.setAllTask(tasks);
                 taskAdapter.notifyDataSetChanged();
             }
         });
 
-        refreshTaskList();
     }
 
     private void refreshTaskList(){
         homeViewModel.getAllTask(((MainApplication) getApplicationContext()).getCurrentUser().getName());
+    }
+
+    public void updateTask(Task task){
+        homeViewModel.updateTask(task);
     }
 
     @OnClick(R.id.home_button_add_task)
@@ -87,7 +100,7 @@ public class HomeActivity extends AppCompatActivity {
     private HomeViewModel obtainViewModel() {
         TaskRepository taskRepository = (((MainApplication) getApplicationContext())).getTaskRepository();
         HomeViewModel homeViewModel = new ViewModelProvider(this).get(HomeViewModel.class);
-        homeViewModel.setTaskRepository(taskRepository);
+        homeViewModel.initHomeViewModel(taskRepository);
         return homeViewModel;
     }
 }

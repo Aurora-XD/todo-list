@@ -3,6 +3,7 @@ package com.thoughtworks.todo_list.repository.task;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Update;
 
 import com.thoughtworks.todo_list.repository.task.entity.Task;
 
@@ -18,4 +19,7 @@ public interface DBTaskDataSource extends TaskDateSource {
 
     @Query("select * from task where username = :name order by isFinish asc, deadline asc")
     Maybe<List<Task>> getAllTask(String name);
+
+    @Update
+    Completable updateTask(Task task);
 }
