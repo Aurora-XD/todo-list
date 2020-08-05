@@ -9,7 +9,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.thoughtworks.todo_list.repository.task.TaskRepository;
 import com.thoughtworks.todo_list.repository.user.entity.User;
-import com.thoughtworks.todo_list.ui.home.AddTaskActivity;
+import com.thoughtworks.todo_list.ui.task.AddTaskActivity;
 
 import org.hamcrest.Matchers;
 import org.junit.Rule;
