@@ -19,6 +19,7 @@ import com.thoughtworks.todo_list.MainApplication;
 import com.thoughtworks.todo_list.R;
 import com.thoughtworks.todo_list.repository.user.UserRepository;
 import com.thoughtworks.todo_list.repository.user.entity.User;
+import com.thoughtworks.todo_list.ui.home.HomeActivity;
 
 import java.util.Objects;
 

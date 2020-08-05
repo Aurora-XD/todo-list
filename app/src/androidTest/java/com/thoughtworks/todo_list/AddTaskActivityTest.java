@@ -1,6 +1,5 @@
 package com.thoughtworks.todo_list;
 
-import android.content.Context;
 import android.widget.DatePicker;
 
 import androidx.test.espresso.contrib.PickerActions;
@@ -10,7 +9,7 @@ import androidx.test.rule.ActivityTestRule;
 
 import com.thoughtworks.todo_list.repository.task.TaskRepository;
 import com.thoughtworks.todo_list.repository.user.entity.User;
-import com.thoughtworks.todo_list.ui.login.AddTaskActivity;
+import com.thoughtworks.todo_list.ui.home.AddTaskActivity;
 
 import org.hamcrest.Matchers;
 import org.junit.Rule;
@@ -29,9 +28,7 @@ import static androidx.test.espresso.assertion.ViewAssertions.matches;
 import static androidx.test.espresso.matcher.ViewMatchers.isEnabled;
 import static androidx.test.espresso.matcher.ViewMatchers.withClassName;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
-import static androidx.test.espresso.matcher.ViewMatchers.withParent;
 import static com.thoughtworks.todo_list.ui.login.LoginViewModel.USERNAME;
-import static org.hamcrest.Matchers.any;
 import static org.hamcrest.Matchers.not;
 import static org.mockito.Mockito.when;
 

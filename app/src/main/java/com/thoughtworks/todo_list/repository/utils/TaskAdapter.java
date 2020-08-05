@@ -1,7 +1,6 @@
 package com.thoughtworks.todo_list.repository.utils;
 
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.thoughtworks.todo_list.R;
 import com.thoughtworks.todo_list.repository.task.entity.Task;
-import com.thoughtworks.todo_list.ui.login.HomeActivity;
+import com.thoughtworks.todo_list.ui.home.HomeActivity;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.thoughtworks.todo_list.ui.login;
+package com.thoughtworks.todo_list.ui.home;
 
 import android.text.TextUtils;
 import android.util.Log;

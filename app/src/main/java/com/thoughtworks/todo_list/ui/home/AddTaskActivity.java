@@ -1,4 +1,4 @@
-package com.thoughtworks.todo_list.ui.login;
+package com.thoughtworks.todo_list.ui.home;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
