@@ -1,7 +1,6 @@
 package com.thoughtworks.todo_list.repository.utils;
 
 import android.graphics.Paint;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,11 +25,12 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
 
     static class TaskViewHolder extends RecyclerView.ViewHolder{
         private CheckBox mIsFinish;
-        private TextView mDeadline;
+        private TextView mTaskHeader,mDeadline;
         public TaskViewHolder(@NonNull View itemView) {
             super(itemView);
             mIsFinish = itemView.findViewById(R.id.home_task_is_finish);
             mDeadline = itemView.findViewById(R.id.home_task_deadline);
+            mTaskHeader = itemView.findViewById(R.id.home_task_header);
         }
     }
 
@@ -45,9 +45,9 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.TaskViewHolder
     public void onBindViewHolder(@NonNull TaskAdapter.TaskViewHolder holder, int position) {
         Task task = allTask.get(position);
         holder.mIsFinish.setChecked(task.isFinish());
-        holder.mIsFinish.setText(task.getHeader());
+        holder.mTaskHeader.setText(task.getHeader());
         if(task.isFinish()){
-            holder.mIsFinish.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            holder.mTaskHeader.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
         }
         holder.mDeadline.setText(DateTrans.dateToString(task.getDeadline()).split("年")[1]);
     }

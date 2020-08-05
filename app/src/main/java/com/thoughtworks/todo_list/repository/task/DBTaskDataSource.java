@@ -16,6 +16,6 @@ public interface DBTaskDataSource extends TaskDateSource {
     @Insert
     Completable saveTask(Task task);
 
-    @Query("select * from task where username = :name order by isFinish asc, deadline desc")
+    @Query("select * from task where username = :name order by isFinish asc, deadline asc")
     Maybe<List<Task>> getAllTask(String name);
 }
