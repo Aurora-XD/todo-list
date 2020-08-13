@@ -24,7 +24,7 @@
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"
-            android:label="@string/home_page_name" />
+            android:label="" />
     </application>
 
 </manifest>
